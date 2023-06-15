@@ -3,46 +3,49 @@ import { FaHome } from "react-icons/fa";
 import "./Header.css";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../../config/firebaseConfig";
-import {useAuthState} from 'react-firebase-hooks/auth';
-import {signOut} from "firebase/auth"
-
+import { useAuthState } from "react-firebase-hooks/auth";
+import { signOut } from "firebase/auth";
 
 function Header() {
-    const navigate = useNavigate ();
-    //get user data
-    const [user] = useAuthState(auth);
+	const navigate = useNavigate();
+	//get user data
+	const [user] = useAuthState(auth);
 
-    console.log(user);
+	console.log(user);
 
-    //create array for categories
-    const categories=["Health", "Food", "Travel", "Technology"]
-
-    
+	//create array for categories
+	const categories = ["Health", "Food", "Travel", "Technology"];
 
 	return (
-        <div className="header-container">
-            <FaHome className="home-icon" onClick={()=>navigate("/")} />
-            <div className="categories-container">
-                {
-                    categories.map((item, index)=><Link to={`/category/${item}`} className="nav-link" key={index}>{item}</Link>)
-
-                }
-            </div>
+		<div className="header-container">
+			<FaHome className="home-icon" onClick={() => navigate("/")} />
             {
                 user?
-                <div>
-                    <span className="username">
-                        {
-                            user.displayName
-                        }
-                    </span>
-                    <button className="auth-link" onClick={()=>signOut(auth)}>Log out</button>
-                </div>
+                <Link to="/addArticle" className="auth-link">Add Article</Link>
                 :
-                <Link className="auth-link" to="/auth">Sign Up</Link>
+                null
             }
-        </div>
-    ) 
+			<div className="categories-container">
+				{categories.map((item, index) => (
+					<Link to={`/category/${item}`} className="nav-link" key={index}>
+						{item}
+					</Link>
+				))}
+			</div>
+			{user ? (
+				<div>
+					<span className="username">{user.displayName}</span>
+					<button className="auth-link" onClick={() => signOut(auth)}>
+						Log out
+					</button>
+				</div>
+			) : (
+				<Link className="auth-link" to="/auth">
+					Sign Up
+				</Link>
+			)}
+		</div>
+	);
 }
 
 export default Header;

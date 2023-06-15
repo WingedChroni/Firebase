@@ -48,10 +48,10 @@ function Auth() {
     }
 
 	return (
-		<div className="auth-container" onSubmit = {handleSignup}>
+		<div className="auth-container">
 			Auth
 			{existingUser ? (
-				<form className="auth-form">
+				<form className="auth-form" onSubmit={handleLogin}>
 					<h1>Login with your email</h1>
 					<div className="form-group">
 						<input type="email" onChange={(e)=>setEmail(e.target.value)} placeholder="Enter your email" required />
@@ -63,7 +63,7 @@ function Auth() {
 					</p>
 				</form>
 			) : (
-				<form className="auth-form" onSubmit={handleLogin}>
+				<form className="auth-form" onSubmit = {handleSignup}>
 					<h1>Sign up with your email</h1>
 					<div className="form-group">
 						<input type="text" onChange={(e)=>setName(e.target.value)} placeholder="Enter your name" required />
